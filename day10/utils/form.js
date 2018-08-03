@@ -2,7 +2,7 @@
  * @Author: ytj 
  * @Date: 2018-08-03 15:06:49 
  * @Last Modified by: ytj
- * @Last Modified time: 2018-08-03 18:30:16
+ * @Last Modified time: 2018-08-03 19:08:23
  */
 
 const cheerio = require('cheerio');
@@ -18,9 +18,9 @@ const parseForm = (html) => {
         let parsedForm = {};
 
         parsedForm.url = $(form).attr('action');
-        parsedForm.method = $(form).attr('method'),
+        parsedForm.method = $(form).attr('method');
 
-            parsedForm.body = {};
+        parsedForm.body = {};
         let body = parsedForm.body;
 
         // 处理input
@@ -59,7 +59,7 @@ const parseForm = (html) => {
         parsedForms.push(parsedForm);
     })
 
-    return parsedForms
+    return parsedForms.length === 1 ? parsedForms[0] : parsedForms;
 }
 
 
@@ -67,7 +67,7 @@ const test = async () => {
     const htmlFilePath = path.resolve(__dirname, '../common/html/form.html');
 
     const html = await fs.readFile(htmlFilePath, 'utf-8');
-    parseForm(html)
+    console.log(parseForm(html));
 
 }
 
