@@ -2,13 +2,20 @@
  * @Author: ytj 
  * @Date: 2018-08-03 15:06:49 
  * @Last Modified by: ytj
- * @Last Modified time: 2018-08-03 19:08:23
+ * @Last Modified time: 2018-08-05 21:12:51
  */
 
 const cheerio = require('cheerio');
 const fs = require('mz/fs');
 const path = require('path');
 
+
+/**
+ * 解析表单提交的key-value
+ *
+ * @param {*} html
+ * @returns
+ */
 const parseForm = (html) => {
     let $ = cheerio.load(html);
 
@@ -45,7 +52,7 @@ const parseForm = (html) => {
             }
         });
 
-        // 处理复选框
+        // 处理多选框
         const selects = $(form).find('select[name]');
         selects.each((index, select) => {
             const options = $(select).find('option');
@@ -63,15 +70,15 @@ const parseForm = (html) => {
 }
 
 
-const test = async () => {
-    const htmlFilePath = path.resolve(__dirname, '../common/html/form.html');
-
-    const html = await fs.readFile(htmlFilePath, 'utf-8');
-    console.log(parseForm(html));
-
-}
-
 if (require.main === module) {
+    const test = async () => {
+        const htmlFilePath = path.resolve(__dirname, '../common/html/form.html');
+    
+        const html = await fs.readFile(htmlFilePath, 'utf-8');
+        console.log(parseForm(html));
+    
+    }
+
     test();
 } else {
     module.exports = {
